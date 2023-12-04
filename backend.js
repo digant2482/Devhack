@@ -180,11 +180,12 @@ const account = process.env.ACCOUNT_ADDRESS; // Replace with your account addres
 const privateKey = process.env.PRIVATE_KEY; // Replace with your private key
 
 export const createOrder = async (productId, seller, quantity, price) => {
+  const PRICE = 1000000000000000000 * price;
   try {
     const gasPrice = await web3.eth.getGasPrice();
     const gasLimit = 2000000; // Adjust gas limit accordingly
     const data = contract.methods
-      .createOrder(productId, seller, quantity, price)
+      .createOrder(productId, seller, quantity, PRICE)
       .encodeABI();
 
     //Get current order Id
@@ -230,7 +231,7 @@ export const createOrder = async (productId, seller, quantity, price) => {
       gas: gasLimit,
       gasPrice: gasPrice,
       data: newData,
-      value: price
+      value: PRICE
     };
 
     console.log("here4");
